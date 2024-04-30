@@ -12,7 +12,7 @@ Each course has its own directory within this repository. You can navigate to th
 
 ## Author
 
-This repository was created by [Khaled Mohamed Ali].
+This repository was created by **Khaled Mohamed Ali**.
 
 ## Feedback
 
