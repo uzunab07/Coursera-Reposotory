@@ -11,7 +11,7 @@
  * - find_mean: Finds the mean value of an array
  * - find_maximum: Finds the maximum value in an array
  * - find_minimum: Finds the minimum value in an array
- * - sort_array: Sorts an array in ascending order
+ * - sort_array: Sorts an array in ascendin order
  * - swap: Swaps two elements in an array
  *
  * @author Khaled Mohamed Ali
