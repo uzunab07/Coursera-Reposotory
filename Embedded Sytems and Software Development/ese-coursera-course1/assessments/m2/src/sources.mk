@@ -26,5 +26,6 @@ INCLUDES = \
 SOURCES =   main.c \
 			memory.c \
 			startup_msp432p401r_gcc.c \
-			system_msp432p401r.c
+			system_msp432p401r.c \
+			interrupts_msp432p401r_gcc.c
 endif

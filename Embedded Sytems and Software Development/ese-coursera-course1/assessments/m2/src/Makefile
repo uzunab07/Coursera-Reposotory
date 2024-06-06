@@ -39,6 +39,7 @@ LDFLAGS =
 CFLAGS = 
 CPPFLAGs = 
 
+
 # converting all src files into object files
 
 # The rule that should be applied to do it
@@ -56,6 +57,9 @@ ifeq ($(PLATFORM),HOST)
 #  Compiler Flags and Defines
 	CC = gcc
 
+# getting the size
+SIZETOOL = size
+
 else
 #  Compiler Flags and Defines
 	CC = arm-none-eabi-gcc
@@ -67,6 +71,8 @@ else
 			    -march=armv7e-m -mfloat-abi=hard \
 				-mfpu=fpv4-sp-d16
 	 
+# getting the size
+	SIZETOOL = arm-none-eabi-size
 
 
 endif
@@ -86,14 +92,21 @@ ASM=$(SOURCES:.c=.asm)
 %.asm:%.c
 	$(CC) -E $< $(CPPFLAGS) -o $@ 
 
-build: $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o $(TARGET).out
+$(TARGET).out: $(OBJS)
+	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o $@
 
 compile-all: $(OBJS)
 
 # Removing all created files
-.PHONY:clean all build compile-all
+.PHONY:clean all build compile-all size
 clean:
 	rm -f $(OBJS) $(DEPS) $(PREP) $(ASM) $(TARGET).* 
 
 -include $(DEPS)
+
+build: $(TARGET).out
+	@echo 
+	@echo "##############"
+	@echo "#    SIZE    #"
+	@echo "##############"
+	$(SIZETOOL) $(TARGET).out
