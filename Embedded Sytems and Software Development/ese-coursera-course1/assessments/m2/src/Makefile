@@ -27,7 +27,7 @@ include sources.mk
 PLATFORM =
 
 # Architectures Specific Flags
-LINKER_FILE =  msp432p401r.lds
+LINKER_FILE =  ../msp432p401r.lds
 CPU = cortex-m4
 ARCH = thumb
 SPECS = nosys.specs
@@ -49,7 +49,7 @@ CPPFLAGs =
 CFLAGS = -std=c99 
 CPPFLAGS = $(INCLUDES) -D$(PLATFORM)
 
-TARGET = demo
+TARGET = c1m2
 
 ifeq ($(PLATFORM),HOST)
 
@@ -72,19 +72,28 @@ else
 endif
 
 OBJS=$(SOURCES:.c=.o)
+DEPS=$(SOURCES:.c=.d)
+PREP=$(SOURCES:.c=.i)
+ASM=$(SOURCES:.c=.asm)
+
 
 %.o:%.c
-	$(CC) -c $< $(CFLAGS) $(CPPFLAGS) -o $@ 
+	$(CC) -c $< $(CFLAGS) $(CPPFLAGS) -MMD -MP -o $@ 
 
-.PHONY:build
-build:all
-.PHONY: all
-all: $(OBJS)
+%.i:%.c
+	$(CC) -E $< $(CPPFLAGS) -o $@ 
+
+%.asm:%.c
+	$(CC) -E $< $(CPPFLAGS) -o $@ 
+
+build: $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o $(TARGET).out
 
-
+compile-all: $(OBJS)
 
 # Removing all created files
-.PHONY:clean
+.PHONY:clean all build compile-all
 clean:
-	rm -f $(OBJS) demo.*
+	rm -f $(OBJS) $(DEPS) $(PREP) $(ASM) $(TARGET).* 
+
+-include $(DEPS)
