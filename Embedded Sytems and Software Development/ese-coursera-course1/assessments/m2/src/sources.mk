@@ -9,9 +9,22 @@
 #
 #*****************************************************************************
 
-# Add your Source files to this variable
-SOURCES =
-
+ifeq ($(PLATFORM),HOST)
 # Add your include paths to this variable
-INCLUDES = 
-
+INCLUDES = 	-I../include/common
+# Add your Source files to this variable
+SOURCES =   main.c \
+			memory.c 
+	
+else
+# Add your include paths to this variable
+INCLUDES = \
+			-I../include/CMSIS \
+			-I../include/common \
+			-I../include/msp432
+# Add your Source files to this variable
+SOURCES =   main.c \
+			memory.c \
+			startup_msp432p401r_gcc.c \
+			system_msp432p401r.c
+endif

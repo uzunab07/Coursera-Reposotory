@@ -7,8 +7,7 @@
 * char * src: Pointer starting byte
 * int length: Number of bytes to zero out
 * char(return): Indicate Success of Failure of the Operation
-*
-/********************************************/
+*********************************************/
 
 char memzero(char *src, int length);
 

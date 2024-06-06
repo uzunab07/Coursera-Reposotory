@@ -24,13 +24,13 @@
 include sources.mk
 
 # Platform Overrides
-PLATFORM = 
+PLATFORM =
 
 # Architectures Specific Flags
-LINKER_FILE = 
-CPU = 
-ARCH = 
-SPECS = 
+LINKER_FILE =  msp432p401r.lds
+CPU = cortex-m4
+ARCH = thumb
+SPECS = nosys.specs
 
 # Compiler Flags and Defines
 CC = 
@@ -39,3 +39,52 @@ LDFLAGS =
 CFLAGS = 
 CPPFLAGs = 
 
+# converting all src files into object files
+
+# The rule that should be applied to do it
+
+
+# Link and creating the executer
+
+CFLAGS = -std=c99 
+CPPFLAGS = $(INCLUDES) -D$(PLATFORM)
+
+TARGET = demo
+
+ifeq ($(PLATFORM),HOST)
+
+#  Compiler Flags and Defines
+	CC = gcc
+
+else
+#  Compiler Flags and Defines
+	CC = arm-none-eabi-gcc
+	LD = arm-none-eabi-ld
+
+	LDFLAGS =  -Wl,-Map=$(TARGET).map -T $(LINKER_FILE)
+
+	CFLAGS = -mcpu=$(CPU) -m$(ARCH)  --specs=$(SPECS) \
+			    -march=armv7e-m -mfloat-abi=hard \
+				-mfpu=fpv4-sp-d16
+	 
+
+
+endif
+
+OBJS=$(SOURCES:.c=.o)
+
+%.o:%.c
+	$(CC) -c $< $(CFLAGS) $(CPPFLAGS) -o $@ 
+
+.PHONY:build
+build:all
+.PHONY: all
+all: $(OBJS)
+	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o $(TARGET).out
+
+
+
+# Removing all created files
+.PHONY:clean
+clean:
+	rm -f $(OBJS) demo.*
