@@ -36,7 +36,7 @@ void print_array(unsigned char arr[], int len);
 * @param len The length of the array
 * @return The median value of the array
 */
-double find_median(unsigned char arr[], int len);
+int find_median(unsigned char arr[], int len);
 
 /**
 * @brief Finds the mean value of an array
@@ -45,7 +45,7 @@ double find_median(unsigned char arr[], int len);
 * @param len The length of the array
 * @return The mean value of the array
 */
-double find_mean(unsigned char arr[], int len);
+int find_mean(unsigned char arr[], int len);
 
 /**
 * @brief Finds the maximum value in an array
@@ -80,6 +80,15 @@ void sort_array(unsigned char arr[], int n);
 * @param b Pointer to the second element
 */
 void swap(unsigned char *a, unsigned char *b);
+
+
+/**
+* @brief prints the statistuc of the array
+* This function prints the statistuc of the array
+* @param test array to do the stats on
+* @param len Size of the array
+*/
+void print_stats(unsigned char test[],int len);
 
 
 

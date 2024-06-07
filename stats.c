@@ -30,36 +30,92 @@ void main() {
 
   /* Statistics and Printing Functions Go Here */
    
-  
-
+  print_stats(test,SIZE);
 }
 
 /* Add other Implementation File Code Here */
 void print_array(unsigned char arr[], int len){
 
+    for (int i=0; i<len; i++){
+      printf("%d ",arr[i]);
+    }
 }
 
-double find_median(unsigned char arr[], int len){
-  
+void print_stats(unsigned char test[],int len){
+   printf("\nThe Original array: ");
+    print_array(test,SIZE);
+
+    printf("\nThe mediane is : %d",find_median(test,len));
+
+    printf("\nThe mean is : %d",find_mean(test,len));
+
+    printf("\nThe max is : %d",find_maximum(test,len));
+
+    printf("\nThe min is : %d",find_minimum(test,len));
+
+    sort_array(test,len);
+
+    printf("\nThe Sorted array: ");
+
+    print_array(test,len);
 }
 
-double find_mean(unsigned char arr[], int len){
+int find_median(unsigned char arr[], int len){
+    // Sorting the array
+    sort_array(arr,len);
 
+    // Checking if array has number of odd elements or even 
+    if(len % 2 == 0){
+        double middle1 = arr[len/2];
+        double middle2 = arr[(len-1)/2];
+        return (middle1+middle2)/2;
+    }else{
+        return (arr[len/2]);
+    }
+}
 
+int find_mean(unsigned char arr[], int len){
+  int sum=0;
+  for (int i = 0; i < len; i++){
+    sum+=arr[i];
+  }
+
+  return sum/len;
 }
 
 int find_maximum(unsigned char arr[], int len){
-
+  int max = arr[0];
+  for (int i = 1; i < len; i++){
+   if(arr[i]>max){
+    max = arr[i];
+   }
+  }
+  return max;
 }
 
 int find_minimum(unsigned char arr[], int len){
- 
+  int min = arr[0];
+  for (int i = 1; i < len; i++){
+   if(arr[i]<min){
+    min = arr[i];
+   }
+  }
+  return min;
 }
 
 void sort_array(unsigned char arr[], int n) {
-   
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            // Swap if current element is greater than next element
+            if (arr[j] > arr[j + 1]) {
+                swap(&arr[j], &arr[j + 1]);
+            }
+        }
+    }
 }
 
 void swap(unsigned char *a, unsigned char *b){
- 
+  unsigned char tmp = *a;
+  *a = *b;
+  *b = tmp;
 }
